@@ -1,5 +1,8 @@
 package com.tw.exam.questionMedium;
 
+
+import java.util.Arrays;
+
 /**
  * Please read the Javadoc as well as the test cases carefully to complete the requirement.
  */
@@ -12,18 +15,20 @@ public class MultiplyTable {
      * parameter should support up to {@code Integer.MAX_VALUE}.
      *
      * @param start The start number (inclusive) of the {@link MultiplyTable}.
-     * @param end The end number (inclusive) of the {@link MultiplyTable}.
-     *
-     * @throws IllegalArgumentException
-     *  <ul>
-     *      <li>The <code>start</code> or <code>end</code> is less than or equal to zero.</li>
-     *      <li>The <code>start</code> is greater than <code>end</code>.</li>
-     *  </ul>
+     * @param end   The end number (inclusive) of the {@link MultiplyTable}.
+     * @throws IllegalArgumentException <ul>
+     *                                  <li>The <code>start</code> or <code>end</code> is less than or equal to zero.</li>
+     *                                  <li>The <code>start</code> is greater than <code>end</code>.</li>
+     *                                  </ul>
      */
     public MultiplyTable(int start, int end) {
         // TODO: Please implement constructor
         // <--start-
-        throw new RuntimeException("Delete this line");
+        if (start <= 0 || end <= 0 || start > end) {
+            throw new IllegalArgumentException();
+        }
+        this.start = start;
+        this.end = end;
         // ---end-->
     }
 
@@ -63,12 +68,70 @@ public class MultiplyTable {
     public String toString() {
         // TODO: Please implement toString() method according to Javadoc.
         // <--start-
-        throw new RuntimeException("Delete this line");
+        int cur1 = start;
+        int cur2 = end;
+        int pos;
+
+        StringBuilder result = new StringBuilder();
+
+        if (start == end) {
+            return start + "*" + end + "=" + start * end + "  " + "\n";
+        }
+
+        int[] columnMaxLength = getColumnMaxSpaceLength();
+        int[] MinLength = getColumnMinLength();
+
+        System.out.println(Arrays.toString(columnMaxLength));
+        while (cur1 <= cur2) {
+            pos = start;
+            while (pos <= cur1) {
+                String expression = cur1 + "*" + pos + "=" + cur1 * pos;
+                result.append(expression);
+
+                int SpaceNum = columnMaxLength[pos - start] + (MinLength[pos - start] - expression.length());
+                int SpaceCur = 0;
+                while (SpaceCur++ < SpaceNum) {
+                    result.append(" ");
+                }
+
+                if (pos == cur1) {
+                    result.append("\n");
+                }
+                pos += 1;
+            }
+            cur1 += 1;
+        }
+        return result.toString();
         // ---end->
     }
 
     // TODO: You can add some additional method here if you want.
     // <--start-
+    private int[] getColumnMaxSpaceLength() {
+        int[] SpaceMaxlength = new int[end - start + 1];
+        int cur = start;
+        while (cur < end) {
+            String MaxLine = end + "*" + cur + "=" + end * cur;
+            System.out.println(MaxLine);
+            String MinLine = start + "*" + cur + "=" + start * cur;
+            System.out.println(MinLine);
+            SpaceMaxlength[cur - start] = MaxLine.length() - MinLine.length() + 2;
+            cur += 1;
+        }
+        return SpaceMaxlength;
+    }
+
+    private int[] getColumnMinLength() {
+        int[] maxlength = new int[end - start + 1];
+        int cur = start;
+        while (cur < end) {
+            String MinLine = start + "*" + cur + "=" + start * cur;
+            maxlength[cur - start] = MinLine.length();
+            cur += 1;
+        }
+        return maxlength;
+    }
+
 
     // ---end->
 }

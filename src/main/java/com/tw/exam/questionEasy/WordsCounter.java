@@ -1,6 +1,9 @@
 package com.tw.exam.questionEasy;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+
 
 /**
  * <p>Please implement the {@link WordsCounter#countWord(String)} method with the help of
@@ -21,16 +24,29 @@ public class WordsCounter {
      * <code>text</code> are separated only by <code>' '</code> and <code>'\t'</code>.
      *
      * @param text The text which contains words.
-     *
-     * @return
-     *  <p>The split words. Please note that returned list should not contains empty word
-     *  (word which is an empty string).</p>
-     *  <p>If the input <code>text</code> is null, it will return empty list.</p>
+     * @return <p>The split words. Please note that returned list should not contains empty word
+     * (word which is an empty string).</p>
+     * <p>If the input <code>text</code> is null, it will return empty list.</p>
      */
     static List<String> getWords(String text) {
         // TODO: please implement the method:
         // <-start-
-        throw new RuntimeException("Delete this line");
+        ArrayList<String> stringsArr = new ArrayList<>();
+
+        if (text == null || text == "") {
+            return stringsArr;
+        }
+
+        String[] split1 = text.split(" ");
+        for (String s1 : split1) {
+            String[] split2 = s1.split("\\t");
+            for (String s2 : split2) {
+                stringsArr.add(s2);
+            }
+        }
+
+
+        return stringsArr;
         // --end-->
     }
 
@@ -54,7 +70,13 @@ public class WordsCounter {
     static boolean isMatch(String word) {
         // TODO: please implement the method:
         // <-start-
-        throw new RuntimeException("Delete this line");
+        if (word == null) {
+            return false;
+        }
+
+        String pattern = "([A-Za-z])[A-Za-z0-9-,]+\\d$";
+
+        return Pattern.matches(pattern, word);
         // --end-->
     }
 
@@ -64,15 +86,26 @@ public class WordsCounter {
      * {@link WordsCounter#isMatch(String)} method.</p>
      *
      * @param text The input text.
-     * @return
-     *  The number of words which satisfy rules determined by {@link WordsCounter#isMatch(String)} method.
-     *
+     * @return The number of words which satisfy rules determined by {@link WordsCounter#isMatch(String)} method.
      * @throws IllegalArgumentException <code>text</code> is <code>null</code>.
      */
     public static int countWord(String text) {
         // TODO: please implement the method:
         // <-start-
-        throw new RuntimeException("Delete this line");
+        if (text == null) {
+            throw new IllegalArgumentException();
+        }
+
+        if (text == "") {
+            return 0;
+        }
+
+        List<String> words = getWords(text);
+
+        String[] strings = words.stream().filter(p -> isMatch(p)).toArray(String[]::new);
+
+        return strings.length;
+
         // --end-->
     }
 }

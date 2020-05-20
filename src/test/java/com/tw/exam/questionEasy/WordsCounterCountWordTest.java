@@ -14,7 +14,7 @@ class WordsCounterCountWordTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"word0", "Word0", "wa0", "word0-count0-0"})
+    @ValueSource(strings = {"word0", "Word0", "wa0","word0count00"})
     void should_get_word_count_if_pattern_matches(String oneMatch) {
         assertEquals(1, WordsCounter.countWord(oneMatch));
     }

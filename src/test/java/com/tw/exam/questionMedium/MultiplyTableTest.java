@@ -54,6 +54,7 @@ class MultiplyTableTest {
             "2*2=4  \n" +
             "3*2=6  3*3=9  \n";
 
+
         assertEquals(expected, table.toString());
     }
 
